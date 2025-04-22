@@ -1,5 +1,5 @@
 {
-  "name": "drivers",
+  "name": "admin",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -19,6 +19,7 @@
     "@tanstack/react-query-devtools": "^5.71.2",
     "@tanstack/react-router": "^1.114.32",
     "@tanstack/router-plugin": "^1.114.32",
+    "@toolpad/core": "^0.14.0",
     "axios": "^1.8.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
