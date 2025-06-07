@@ -8,25 +8,53 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 // Import Routes
 
 import { Route as rootRoute } from './pages/__root'
-import { Route as IndexImport } from './pages/index'
 import { Route as DashboardIndexImport } from './pages/dashboard/index'
+import { Route as DashboardStoreIndexImport } from './pages/dashboard/store/index'
+import { Route as DashboardMasterUserProductIndexImport } from './pages/dashboard/master-user/product/index'
+import { Route as DashboardMasterUserProductCreateImport } from './pages/dashboard/master-user/product/create'
+
+// Create Virtual Routes
+
+const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
 
-const IndexRoute = IndexImport.update({
+const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any)
+} as any).lazy(() => import('./pages/index.lazy').then((d) => d.Route))
 
 const DashboardIndexRoute = DashboardIndexImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
   getParentRoute: () => rootRoute,
 } as any)
+
+const DashboardStoreIndexRoute = DashboardStoreIndexImport.update({
+  id: '/dashboard/store/',
+  path: '/dashboard/store/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardMasterUserProductIndexRoute =
+  DashboardMasterUserProductIndexImport.update({
+    id: '/dashboard/master-user/product/',
+    path: '/dashboard/master-user/product/',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const DashboardMasterUserProductCreateRoute =
+  DashboardMasterUserProductCreateImport.update({
+    id: '/dashboard/master-user/product/create',
+    path: '/dashboard/master-user/product/create',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -36,7 +64,7 @@ declare module '@tanstack/react-router' {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexImport
+      preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
     '/dashboard/': {
@@ -46,44 +74,96 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/store/': {
+      id: '/dashboard/store/'
+      path: '/dashboard/store'
+      fullPath: '/dashboard/store'
+      preLoaderRoute: typeof DashboardStoreIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/master-user/product/create': {
+      id: '/dashboard/master-user/product/create'
+      path: '/dashboard/master-user/product/create'
+      fullPath: '/dashboard/master-user/product/create'
+      preLoaderRoute: typeof DashboardMasterUserProductCreateImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/master-user/product/': {
+      id: '/dashboard/master-user/product/'
+      path: '/dashboard/master-user/product'
+      fullPath: '/dashboard/master-user/product'
+      preLoaderRoute: typeof DashboardMasterUserProductIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof IndexLazyRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/store': typeof DashboardStoreIndexRoute
+  '/dashboard/master-user/product/create': typeof DashboardMasterUserProductCreateRoute
+  '/dashboard/master-user/product': typeof DashboardMasterUserProductIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/': typeof IndexLazyRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/store': typeof DashboardStoreIndexRoute
+  '/dashboard/master-user/product/create': typeof DashboardMasterUserProductCreateRoute
+  '/dashboard/master-user/product': typeof DashboardMasterUserProductIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
+  '/': typeof IndexLazyRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/store/': typeof DashboardStoreIndexRoute
+  '/dashboard/master-user/product/create': typeof DashboardMasterUserProductCreateRoute
+  '/dashboard/master-user/product/': typeof DashboardMasterUserProductIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/dashboard/store'
+    | '/dashboard/master-user/product/create'
+    | '/dashboard/master-user/product'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard'
-  id: '__root__' | '/' | '/dashboard/'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/dashboard/store'
+    | '/dashboard/master-user/product/create'
+    | '/dashboard/master-user/product'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard/'
+    | '/dashboard/store/'
+    | '/dashboard/master-user/product/create'
+    | '/dashboard/master-user/product/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  IndexLazyRoute: typeof IndexLazyRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardStoreIndexRoute: typeof DashboardStoreIndexRoute
+  DashboardMasterUserProductCreateRoute: typeof DashboardMasterUserProductCreateRoute
+  DashboardMasterUserProductIndexRoute: typeof DashboardMasterUserProductIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  IndexLazyRoute: IndexLazyRoute,
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardStoreIndexRoute: DashboardStoreIndexRoute,
+  DashboardMasterUserProductCreateRoute: DashboardMasterUserProductCreateRoute,
+  DashboardMasterUserProductIndexRoute: DashboardMasterUserProductIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,14 +177,26 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/dashboard/"
+        "/dashboard/",
+        "/dashboard/store/",
+        "/dashboard/master-user/product/create",
+        "/dashboard/master-user/product/"
       ]
     },
     "/": {
-      "filePath": "index.tsx"
+      "filePath": "index.lazy.tsx"
     },
     "/dashboard/": {
       "filePath": "dashboard/index.tsx"
+    },
+    "/dashboard/store/": {
+      "filePath": "dashboard/store/index.tsx"
+    },
+    "/dashboard/master-user/product/create": {
+      "filePath": "dashboard/master-user/product/create.tsx"
+    },
+    "/dashboard/master-user/product/": {
+      "filePath": "dashboard/master-user/product/index.tsx"
     }
   }
 }

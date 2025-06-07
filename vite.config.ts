@@ -8,6 +8,8 @@ const root = path.resolve(__dirname, 'src')
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), TanStackRouterVite()],
+  server: {
+    port: 3000,},
   resolve: {
     alias: {
       '@/': `${root}/`,
