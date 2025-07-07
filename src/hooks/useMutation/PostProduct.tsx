@@ -12,7 +12,7 @@ export const CreateProducts = () => {
       }
 
       const formData = new FormData();
-      formData.append("Name", form.name); // ✅ case-sensitive!
+      formData.append("Name", form.name); 
       formData.append("Description", form.description ?? "");
       formData.append("Price", form.price?.toString() ?? "0"); // ⛔ hindari null
       formData.append("Stock", form.stock?.toString() ?? "0");

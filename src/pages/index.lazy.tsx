@@ -9,9 +9,10 @@ import {
   Alert,
   CircularProgress,
   Paper,
-  Link,
 } from "@mui/material";
 import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
+import loginImage from "../assets/logo1.png";
+import logoLogin from "../assets/admin.png"
 
 export const Route = createLazyFileRoute("/")({
   component: LoginPage,
@@ -37,7 +38,6 @@ function LoginPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     setErrorMessage("");
     setSuccessMessage("");
 
@@ -53,7 +53,6 @@ function LoginPage() {
           localStorage.setItem("token", data.Token);
           localStorage.setItem("user", JSON.stringify(userObject));
 
-          setSuccessMessage("Login berhasil. Mengarahkan ke dashboard...");
           setTimeout(() => navigate({ to: "/dashboard" }), 1500);
         } else {
           setErrorMessage("Login gagal. Token tidak ditemukan.");
@@ -68,87 +67,113 @@ function LoginPage() {
   };
 
   return (
-    <Box className="flex items-center justify-center min-h-screen bg-gray-100">
-      <Paper elevation={4} className="w-full max-w-md p-8 rounded-lg bg-white">
-        <Typography
-          variant="h5"
-          fontWeight="bold"
-          textAlign="center"
-          gutterBottom
-        >
-          Selamat Datang
-        </Typography>
-        <Typography
-          variant="body2"
-          textAlign="center"
-          color="text.secondary"
-          mb={3}
-        >
-          Silakan login untuk melanjutkan
-        </Typography>
+    <Box
+      sx={{
+        display: "flex",
+        minHeight: "100vh",
+      }}
+    >
+      <Box
+        sx={{
+          flex: 1,
+          backgroundImage: `url(${loginImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
 
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Email"
-            name="email"
-            type="email"
-            value={form.email}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Password"
-            name="password"
-            type="password"
-            value={form.password}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
+      {/* Right Login Form */}
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#f5f6fa",
+        }}
+      >
+        <Paper
+          elevation={6}
+          sx={{
+            width: 600,
+            borderRadius: 4,
+            backgroundColor: "#FFD500",
+            p: 4,
+          }}
+        >
+          <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+    <img
+      src={logoLogin}
+      alt="Login Logo"
+      style={{ width: "120px", height: "120px", objectFit: "contain" }}
+    />
+  </Box>
+          <Typography variant="h5" fontWeight="bold" gutterBottom>
+            Selamat Datang Di Admin Panel
+          </Typography>
 
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            disabled={isPending}
-            sx={{ mt: 3, py: 1.5, borderRadius: 2 }}
-          >
-            {isPending ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : (
-              "Login"
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="Username/Email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              InputProps={{ style: { borderRadius: 50, backgroundColor: "#fff" } }}
+            />
+            <TextField
+              label="Password"
+              name="password"
+              type="password"
+              value={form.password}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              InputProps={{ style: { borderRadius: 50, backgroundColor: "#fff" } }}
+            />
+
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mt: 1,
+              }}
+            >
+            </Box>
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
+                mt: 3,
+                py: 1.5,
+                borderRadius: 50,
+                backgroundColor: "#000", // Dark blue button
+                color: "#fff",
+                fontWeight: "bold",
+                fontSize: "1rem",
+              }}
+              disabled={isPending}
+            >
+              {isPending ? <CircularProgress size={24} color="inherit" /> : "Login"}
+            </Button>
+
+            {errorMessage && (
+              <Alert severity="error" sx={{ mt: 2 }}>
+                {errorMessage}
+              </Alert>
             )}
-          </Button>
-
-          {errorMessage && (
-            <Alert severity="error" sx={{ mt: 2 }}>
-              {errorMessage}
-            </Alert>
-          )}
-
-          {successMessage && (
-            <Alert severity="success" sx={{ mt: 2 }}>
-              {successMessage}
-            </Alert>
-          )}
-        </form>
-
-        <Typography variant="body2" textAlign="right" mt={1}>
-          <Link href="/ForgotPassword" underline="hover" color="primary">
-            Lupa Password?
-          </Link>
-        </Typography>
-        <Typography variant="body2" textAlign="center" mt={3}>
-          Belum punya akun?{" "}
-          <Link href="/register" underline="hover">
-            Daftar di sini
-          </Link>
-        </Typography>
-      </Paper>
+            {successMessage && (
+              <Alert severity="success" sx={{ mt: 2 }}>
+                {successMessage}
+              </Alert>
+            )}
+          </form>
+        </Paper>
+      </Box>
     </Box>
   );
 }

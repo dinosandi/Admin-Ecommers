@@ -15,12 +15,21 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './pages/__root'
 import { Route as DashboardIndexImport } from './pages/dashboard/index'
 import { Route as DashboardStoreIndexImport } from './pages/dashboard/store/index'
+import { Route as DashboardChatIndexImport } from './pages/dashboard/chat/index'
+import { Route as DashboardStoreCreateImport } from './pages/dashboard/store/create'
+import { Route as DashboardChatCustomerIdImport } from './pages/dashboard/chat/$customerId'
 import { Route as DashboardMasterUserProductIndexImport } from './pages/dashboard/master-user/product/index'
+import { Route as DashboardMasterUserProductEditproductImport } from './pages/dashboard/master-user/product/editproduct'
+import { Route as DashboardMasterUserProductDiscountImport } from './pages/dashboard/master-user/product/discount'
+import { Route as DashboardMasterUserProductCreatediscountImport } from './pages/dashboard/master-user/product/creatediscount'
 import { Route as DashboardMasterUserProductCreateImport } from './pages/dashboard/master-user/product/create'
 
 // Create Virtual Routes
 
 const IndexLazyImport = createFileRoute('/')()
+const DashboardMasterUserTransactionsIndexLazyImport = createFileRoute(
+  '/dashboard/master-user/Transactions/',
+)()
 
 // Create/Update Routes
 
@@ -42,10 +51,60 @@ const DashboardStoreIndexRoute = DashboardStoreIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const DashboardChatIndexRoute = DashboardChatIndexImport.update({
+  id: '/dashboard/chat/',
+  path: '/dashboard/chat/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardStoreCreateRoute = DashboardStoreCreateImport.update({
+  id: '/dashboard/store/create',
+  path: '/dashboard/store/create',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardChatCustomerIdRoute = DashboardChatCustomerIdImport.update({
+  id: '/dashboard/chat/$customerId',
+  path: '/dashboard/chat/$customerId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardMasterUserTransactionsIndexLazyRoute =
+  DashboardMasterUserTransactionsIndexLazyImport.update({
+    id: '/dashboard/master-user/Transactions/',
+    path: '/dashboard/master-user/Transactions/',
+    getParentRoute: () => rootRoute,
+  } as any).lazy(() =>
+    import('./pages/dashboard/master-user/Transactions/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
 const DashboardMasterUserProductIndexRoute =
   DashboardMasterUserProductIndexImport.update({
     id: '/dashboard/master-user/product/',
     path: '/dashboard/master-user/product/',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const DashboardMasterUserProductEditproductRoute =
+  DashboardMasterUserProductEditproductImport.update({
+    id: '/dashboard/master-user/product/editproduct',
+    path: '/dashboard/master-user/product/editproduct',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const DashboardMasterUserProductDiscountRoute =
+  DashboardMasterUserProductDiscountImport.update({
+    id: '/dashboard/master-user/product/discount',
+    path: '/dashboard/master-user/product/discount',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const DashboardMasterUserProductCreatediscountRoute =
+  DashboardMasterUserProductCreatediscountImport.update({
+    id: '/dashboard/master-user/product/creatediscount',
+    path: '/dashboard/master-user/product/creatediscount',
     getParentRoute: () => rootRoute,
   } as any)
 
@@ -74,6 +133,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/chat/$customerId': {
+      id: '/dashboard/chat/$customerId'
+      path: '/dashboard/chat/$customerId'
+      fullPath: '/dashboard/chat/$customerId'
+      preLoaderRoute: typeof DashboardChatCustomerIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/store/create': {
+      id: '/dashboard/store/create'
+      path: '/dashboard/store/create'
+      fullPath: '/dashboard/store/create'
+      preLoaderRoute: typeof DashboardStoreCreateImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/chat/': {
+      id: '/dashboard/chat/'
+      path: '/dashboard/chat'
+      fullPath: '/dashboard/chat'
+      preLoaderRoute: typeof DashboardChatIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/dashboard/store/': {
       id: '/dashboard/store/'
       path: '/dashboard/store'
@@ -88,11 +168,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardMasterUserProductCreateImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/master-user/product/creatediscount': {
+      id: '/dashboard/master-user/product/creatediscount'
+      path: '/dashboard/master-user/product/creatediscount'
+      fullPath: '/dashboard/master-user/product/creatediscount'
+      preLoaderRoute: typeof DashboardMasterUserProductCreatediscountImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/master-user/product/discount': {
+      id: '/dashboard/master-user/product/discount'
+      path: '/dashboard/master-user/product/discount'
+      fullPath: '/dashboard/master-user/product/discount'
+      preLoaderRoute: typeof DashboardMasterUserProductDiscountImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/master-user/product/editproduct': {
+      id: '/dashboard/master-user/product/editproduct'
+      path: '/dashboard/master-user/product/editproduct'
+      fullPath: '/dashboard/master-user/product/editproduct'
+      preLoaderRoute: typeof DashboardMasterUserProductEditproductImport
+      parentRoute: typeof rootRoute
+    }
     '/dashboard/master-user/product/': {
       id: '/dashboard/master-user/product/'
       path: '/dashboard/master-user/product'
       fullPath: '/dashboard/master-user/product'
       preLoaderRoute: typeof DashboardMasterUserProductIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/master-user/Transactions/': {
+      id: '/dashboard/master-user/Transactions/'
+      path: '/dashboard/master-user/Transactions'
+      fullPath: '/dashboard/master-user/Transactions'
+      preLoaderRoute: typeof DashboardMasterUserTransactionsIndexLazyImport
       parentRoute: typeof rootRoute
     }
   }
@@ -103,26 +211,47 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/chat/$customerId': typeof DashboardChatCustomerIdRoute
+  '/dashboard/store/create': typeof DashboardStoreCreateRoute
+  '/dashboard/chat': typeof DashboardChatIndexRoute
   '/dashboard/store': typeof DashboardStoreIndexRoute
   '/dashboard/master-user/product/create': typeof DashboardMasterUserProductCreateRoute
+  '/dashboard/master-user/product/creatediscount': typeof DashboardMasterUserProductCreatediscountRoute
+  '/dashboard/master-user/product/discount': typeof DashboardMasterUserProductDiscountRoute
+  '/dashboard/master-user/product/editproduct': typeof DashboardMasterUserProductEditproductRoute
   '/dashboard/master-user/product': typeof DashboardMasterUserProductIndexRoute
+  '/dashboard/master-user/Transactions': typeof DashboardMasterUserTransactionsIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/chat/$customerId': typeof DashboardChatCustomerIdRoute
+  '/dashboard/store/create': typeof DashboardStoreCreateRoute
+  '/dashboard/chat': typeof DashboardChatIndexRoute
   '/dashboard/store': typeof DashboardStoreIndexRoute
   '/dashboard/master-user/product/create': typeof DashboardMasterUserProductCreateRoute
+  '/dashboard/master-user/product/creatediscount': typeof DashboardMasterUserProductCreatediscountRoute
+  '/dashboard/master-user/product/discount': typeof DashboardMasterUserProductDiscountRoute
+  '/dashboard/master-user/product/editproduct': typeof DashboardMasterUserProductEditproductRoute
   '/dashboard/master-user/product': typeof DashboardMasterUserProductIndexRoute
+  '/dashboard/master-user/Transactions': typeof DashboardMasterUserTransactionsIndexLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/chat/$customerId': typeof DashboardChatCustomerIdRoute
+  '/dashboard/store/create': typeof DashboardStoreCreateRoute
+  '/dashboard/chat/': typeof DashboardChatIndexRoute
   '/dashboard/store/': typeof DashboardStoreIndexRoute
   '/dashboard/master-user/product/create': typeof DashboardMasterUserProductCreateRoute
+  '/dashboard/master-user/product/creatediscount': typeof DashboardMasterUserProductCreatediscountRoute
+  '/dashboard/master-user/product/discount': typeof DashboardMasterUserProductDiscountRoute
+  '/dashboard/master-user/product/editproduct': typeof DashboardMasterUserProductEditproductRoute
   '/dashboard/master-user/product/': typeof DashboardMasterUserProductIndexRoute
+  '/dashboard/master-user/Transactions/': typeof DashboardMasterUserTransactionsIndexLazyRoute
 }
 
 export interface FileRouteTypes {
@@ -130,40 +259,79 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/dashboard/chat/$customerId'
+    | '/dashboard/store/create'
+    | '/dashboard/chat'
     | '/dashboard/store'
     | '/dashboard/master-user/product/create'
+    | '/dashboard/master-user/product/creatediscount'
+    | '/dashboard/master-user/product/discount'
+    | '/dashboard/master-user/product/editproduct'
     | '/dashboard/master-user/product'
+    | '/dashboard/master-user/Transactions'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/dashboard'
+    | '/dashboard/chat/$customerId'
+    | '/dashboard/store/create'
+    | '/dashboard/chat'
     | '/dashboard/store'
     | '/dashboard/master-user/product/create'
+    | '/dashboard/master-user/product/creatediscount'
+    | '/dashboard/master-user/product/discount'
+    | '/dashboard/master-user/product/editproduct'
     | '/dashboard/master-user/product'
+    | '/dashboard/master-user/Transactions'
   id:
     | '__root__'
     | '/'
     | '/dashboard/'
+    | '/dashboard/chat/$customerId'
+    | '/dashboard/store/create'
+    | '/dashboard/chat/'
     | '/dashboard/store/'
     | '/dashboard/master-user/product/create'
+    | '/dashboard/master-user/product/creatediscount'
+    | '/dashboard/master-user/product/discount'
+    | '/dashboard/master-user/product/editproduct'
     | '/dashboard/master-user/product/'
+    | '/dashboard/master-user/Transactions/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardChatCustomerIdRoute: typeof DashboardChatCustomerIdRoute
+  DashboardStoreCreateRoute: typeof DashboardStoreCreateRoute
+  DashboardChatIndexRoute: typeof DashboardChatIndexRoute
   DashboardStoreIndexRoute: typeof DashboardStoreIndexRoute
   DashboardMasterUserProductCreateRoute: typeof DashboardMasterUserProductCreateRoute
+  DashboardMasterUserProductCreatediscountRoute: typeof DashboardMasterUserProductCreatediscountRoute
+  DashboardMasterUserProductDiscountRoute: typeof DashboardMasterUserProductDiscountRoute
+  DashboardMasterUserProductEditproductRoute: typeof DashboardMasterUserProductEditproductRoute
   DashboardMasterUserProductIndexRoute: typeof DashboardMasterUserProductIndexRoute
+  DashboardMasterUserTransactionsIndexLazyRoute: typeof DashboardMasterUserTransactionsIndexLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardChatCustomerIdRoute: DashboardChatCustomerIdRoute,
+  DashboardStoreCreateRoute: DashboardStoreCreateRoute,
+  DashboardChatIndexRoute: DashboardChatIndexRoute,
   DashboardStoreIndexRoute: DashboardStoreIndexRoute,
   DashboardMasterUserProductCreateRoute: DashboardMasterUserProductCreateRoute,
+  DashboardMasterUserProductCreatediscountRoute:
+    DashboardMasterUserProductCreatediscountRoute,
+  DashboardMasterUserProductDiscountRoute:
+    DashboardMasterUserProductDiscountRoute,
+  DashboardMasterUserProductEditproductRoute:
+    DashboardMasterUserProductEditproductRoute,
   DashboardMasterUserProductIndexRoute: DashboardMasterUserProductIndexRoute,
+  DashboardMasterUserTransactionsIndexLazyRoute:
+    DashboardMasterUserTransactionsIndexLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -178,9 +346,16 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/dashboard/",
+        "/dashboard/chat/$customerId",
+        "/dashboard/store/create",
+        "/dashboard/chat/",
         "/dashboard/store/",
         "/dashboard/master-user/product/create",
-        "/dashboard/master-user/product/"
+        "/dashboard/master-user/product/creatediscount",
+        "/dashboard/master-user/product/discount",
+        "/dashboard/master-user/product/editproduct",
+        "/dashboard/master-user/product/",
+        "/dashboard/master-user/Transactions/"
       ]
     },
     "/": {
@@ -189,14 +364,35 @@ export const routeTree = rootRoute
     "/dashboard/": {
       "filePath": "dashboard/index.tsx"
     },
+    "/dashboard/chat/$customerId": {
+      "filePath": "dashboard/chat/$customerId.tsx"
+    },
+    "/dashboard/store/create": {
+      "filePath": "dashboard/store/create.tsx"
+    },
+    "/dashboard/chat/": {
+      "filePath": "dashboard/chat/index.tsx"
+    },
     "/dashboard/store/": {
       "filePath": "dashboard/store/index.tsx"
     },
     "/dashboard/master-user/product/create": {
       "filePath": "dashboard/master-user/product/create.tsx"
     },
+    "/dashboard/master-user/product/creatediscount": {
+      "filePath": "dashboard/master-user/product/creatediscount.tsx"
+    },
+    "/dashboard/master-user/product/discount": {
+      "filePath": "dashboard/master-user/product/discount.tsx"
+    },
+    "/dashboard/master-user/product/editproduct": {
+      "filePath": "dashboard/master-user/product/editproduct.tsx"
+    },
     "/dashboard/master-user/product/": {
       "filePath": "dashboard/master-user/product/index.tsx"
+    },
+    "/dashboard/master-user/Transactions/": {
+      "filePath": "dashboard/master-user/Transactions/index.lazy.tsx"
     }
   }
 }
