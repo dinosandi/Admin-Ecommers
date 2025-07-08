@@ -46,4 +46,4 @@ This is the **Admin Dashboard** for a custom-built E-Commerce platform built wit
 ![image](https://github.com/user-attachments/assets/9a653839-70d8-43b0-9267-0a54060474d3)
 ![image](https://github.com/user-attachments/assets/4dc89767-a050-4e8e-b025-3788841f4ceb)
 ![image](https://github.com/user-attachments/assets/8f7f22ee-c2ab-4075-a76b-e381716dbf76)
-
+![image](https://github.com/user-attachments/assets/569be11f-24f4-4ee2-a0a0-7306d937520f)
